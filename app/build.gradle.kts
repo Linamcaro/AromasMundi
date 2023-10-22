@@ -59,7 +59,7 @@ dependencies {
     val coil_ver = "2.2.2"
     val gson_ver = "2.10"
     val shimmer_ver = "0.5.0"
-    val shimmer_recyclerView_ver = "0.4.0"
+    val shimmer_recyclerView_ver = "0.4.1"
     val jsoup_ver = "1.15.3"
 
 
@@ -104,9 +104,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:${daggerHilt_ver}")
     kapt("com.google.dagger:hilt-android-compiler:${daggerHilt_ver}")
 
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:${hilt_ver}")
-    kapt("androidx.hilt:hilt-compiler:${hilt_ver}")
-
     //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines_ver}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_ver}")
@@ -125,7 +122,6 @@ dependencies {
 
     //Shimmer
     implementation("com.facebook.shimmer:shimmer:${shimmer_ver}")
-    //implementation("com.todkars:shimmer-recyclerview:${shimmer_recyclerView_ver}")
 
     //Jsoup
     implementation("org.jsoup:jsoup:${jsoup_ver}")
