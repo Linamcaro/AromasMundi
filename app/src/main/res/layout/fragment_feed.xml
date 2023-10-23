@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FeedFragment">
+    tools:context=".ui.fragments.feed.FeedFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/lightGray">
-        <!--
+
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmerFrameLayout"
                     android:layout_width="0dp"
@@ -18,15 +18,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    Adding 4 rows of placeholders -->
-        <!-- <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="vertical">
+                    <!--Adding 4 rows of placeholders -->
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="vertical">
 
-         </LinearLayout>
+                     <include layout="@layout/placeholder_row_layout" />
 
-        </com.facebook.shimmer.ShimmerFrameLayout>-->
+                     <include layout="@layout/placeholder_row_layout" />
+
+                     <include layout="@layout/placeholder_row_layout" />
+
+                     <include layout="@layout/placeholder_row_layout" />
+
+                 </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

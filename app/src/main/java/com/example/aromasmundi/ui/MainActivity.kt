@@ -1,4 +1,4 @@
-package com.example.aromasmundi
+package com.example.aromasmundi.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.aromasmundi.R
 import com.example.aromasmundi.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,12 +20,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Setup bottom navigation
         val bottomNavigation = binding.bottomNavigationView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.feedFragment,
+            setOf(
+                R.id.feedFragment,
                 R.id.favoritesFragment,
                 R.id.jokesFragment
             )

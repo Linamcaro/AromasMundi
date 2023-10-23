@@ -4,11 +4,15 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
-}
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    }
+
+
 
 android {
     namespace = "com.example.aromasmundi"
     compileSdk = 34
+
 
     defaultConfig {
         applicationId = "com.example.aromasmundi"
@@ -18,6 +22,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("string", "APIkey", "")
+
     }
 
     buildTypes {
@@ -27,7 +34,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
         }
+
     }
 
     buildFeatures {
@@ -40,7 +49,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
+
+
 
 dependencies {
 
