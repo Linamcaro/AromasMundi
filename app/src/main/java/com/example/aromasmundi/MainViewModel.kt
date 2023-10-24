@@ -80,12 +80,9 @@ class MainViewModel @Inject constructor(
                 return NetworkResult.Error(response.message())
             }
         }
-
-
     }
 
-
-    //Check for internet connection
+        //Check for internet connection
         private fun hasInternetConnection(): Boolean {
             val connectivityManager = getApplication<Application>().getSystemService(
                 Context.CONNECTIVITY_SERVICE) as ConnectivityManager
