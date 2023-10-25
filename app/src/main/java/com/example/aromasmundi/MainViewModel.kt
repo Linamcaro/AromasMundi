@@ -21,7 +21,7 @@ import retrofit2.Response
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: Repository,
-    application: Application): AndroidViewModel(Application()) {
+    application: Application): AndroidViewModel(application) {
 
     /** RETROFIT */
     //Store the response from the API

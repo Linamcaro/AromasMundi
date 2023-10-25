@@ -39,6 +39,7 @@
                     android:id="@+id/recipeImage"
                     android:layout_width="200dp"
                     android:layout_height="0dp"
+                    loadImage="@{result.image}"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +58,7 @@
                     android:maxLines="2"
                     android:text="@{result.title}"
                     android:textColor="@color/darker"
-                    android:textSize="20sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -98,8 +99,7 @@
                     android:layout_marginTop="4dp"
                     android:textAlignment="center"
                     android:textColor="@color/red"
-                    android:text="100"
-                    setNumberOfLikes="@{result.aggregateLikes}"
+                    android:text="@{String.valueOf(result.aggregateLikes)}"
                     app:layout_constraintStart_toStartOf="@+id/recipeDescription"
                     app:layout_constraintTop_toBottomOf="@+id/heatIcon" />
 
@@ -121,8 +121,7 @@
                     android:layout_marginTop="4dp"
                     android:textAlignment="center"
                     android:textColor="@color/yellow"
-                    android:text="100"
-                    setNumberOfMinutes="@{result.readyInMinutes}"
+                    android:text="@{String.valueOf(result.readyInMinutes)}"
                     app:layout_constraintStart_toEndOf="@+id/heartText"
                     app:layout_constraintTop_toBottomOf="@+id/clockImage" />
 

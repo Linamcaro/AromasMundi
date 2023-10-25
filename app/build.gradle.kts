@@ -1,11 +1,12 @@
+import org.apache.tools.ant.util.JavaEnvUtils.VERSION_11
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    }
+}
 
 
 
@@ -16,15 +17,12 @@ android {
 
     defaultConfig {
         applicationId = "com.example.aromasmundi"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("string", "APIkey", "")
-
     }
 
     buildTypes {
@@ -34,20 +32,19 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
         }
-
     }
 
     buildFeatures {
         dataBinding = true
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
 }
@@ -57,23 +54,19 @@ android {
 dependencies {
 
     val coordinatorlayour_ver = "1.2.0"
-    val navigationComponent_ver ="2.7.4"
-    val room_ver = "2.5.0"
+    val navigationComponent_ver ="2.5.3"
+    val room_ver = "2.5.1"
     val datastore_ver = "1.0.0"
-    val dataBindingCommon_ver= "8.1.2"
-    val dataBindingCompiler_ver = "3.2.0-alpha10"
-    val recyclerView_ver = "1.2.1"
+    val recyclerView_ver = "1.3.0"
     val retrofit_ver = "2.9.0"
     val daggerHilt_ver = "2.44.2"
-    val hilt_ver = "1.0.0-alpha03"
     val coroutines_ver = "1.6.4"
-    val LifeCycle_ver = "2.2.0"
+    val LifeCycleExt_ver = "2.2.0"
+    val LifeCycle_ver = "2.6.1"
     val coil_ver = "2.2.2"
-    val gson_ver = "2.10"
+    val gson_ver = "2.9.0"
     val shimmer_ver = "0.5.0"
-    val shimmer_recyclerView_ver = "0.4.1"
-    val jsoup_ver = "1.15.3"
-
+    val jsoup_ver = "1.14.3"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -86,7 +79,7 @@ dependencies {
     implementation("androidx.coordinatorlayout:coordinatorlayout:${coordinatorlayour_ver}")
 
     //Material Components
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.8.0")
 
     //Navigation Components
     implementation("androidx.navigation:navigation-fragment-ktx:${navigationComponent_ver}")
@@ -97,10 +90,6 @@ dependencies {
     kapt("androidx.room:room-compiler:${room_ver}")
     implementation("androidx.room:room-ktx:${room_ver}")
     androidTestImplementation("androidx.room:room-testing:${room_ver}")
-
-    //data binding
-    kapt("androidx.databinding:databinding-common:${dataBindingCommon_ver}")
-    kapt("com.android.databinding:compiler:${dataBindingCompiler_ver}")
 
     //dataStore
     implementation("androidx.datastore:datastore-preferences:${datastore_ver}")
@@ -115,6 +104,7 @@ dependencies {
     //dagger-hilt
     implementation("com.google.dagger:hilt-android:${daggerHilt_ver}")
     kapt("com.google.dagger:hilt-android-compiler:${daggerHilt_ver}")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines_ver}")
@@ -124,7 +114,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:${LifeCycle_ver}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${LifeCycle_ver}")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${LifeCycle_ver}")
-    implementation("androidx.lifecycle:lifecycle-extensions:${LifeCycle_ver}")
+    implementation("androidx.lifecycle:lifecycle-extensions:${LifeCycleExt_ver}")
 
     //coil
     implementation("io.coil-kt:coil:${coil_ver}")

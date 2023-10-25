@@ -5,27 +5,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import coil.load
 import com.example.aromasmundi.R
-import com.example.aromasmundi.databinding.RecipesRowLayoutBinding
+
 
 class RecipesRowBinding {
     companion object{
 
-        //Convert number of likes to string
-        @BindingAdapter("setNumberOfLikes")
+        //Load recipe image
+        @BindingAdapter("loadImage")
         @JvmStatic
-        fun setNumberOfLikes(textView: TextView, likes: Int){
-            textView.text = likes.toString()
-        }
-
-        //Convert number of minutes to string
-        @BindingAdapter("setNumberOfMinutes")
-        @JvmStatic
-        fun setNumberOfMinutes(textView: TextView, minutes: Int){
-            textView.text = minutes.toString()
+        fun loadImageUrl(imageView: ImageView, imageUrl: String){
+            imageView.load(imageUrl) {
+                crossfade(600)
+            }
         }
 
         //Change the vegan image and text color
+
         @BindingAdapter("setVeganColor")
         @JvmStatic
         fun setVeganColor(view: View, vegan: Boolean){
