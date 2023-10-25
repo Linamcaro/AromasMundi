@@ -1,4 +1,4 @@
-package com.example.aromasmundi
+package com.example.aromasmundi.viewmodels
 
 import android.app.Application
 import android.content.Context

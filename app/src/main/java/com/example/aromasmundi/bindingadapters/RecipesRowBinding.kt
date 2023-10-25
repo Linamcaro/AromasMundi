@@ -13,7 +13,7 @@ class RecipesRowBinding {
     companion object{
 
         //Load recipe image
-        @BindingAdapter("loadImage")
+        @BindingAdapter("loadRecipeImage")
         @JvmStatic
         fun loadImageUrl(imageView: ImageView, imageUrl: String){
             imageView.load(imageUrl) {
