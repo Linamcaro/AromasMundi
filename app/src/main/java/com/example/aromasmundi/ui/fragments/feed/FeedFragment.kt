@@ -17,6 +17,7 @@ import com.example.aromasmundi.R
 import com.example.aromasmundi.adapters.RecipesAdapter
 import com.example.aromasmundi.databinding.FragmentFeedBinding
 import com.example.aromasmundi.util.NetworkResult
+import com.example.aromasmundi.util.observeOnce
 import com.example.aromasmundi.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -58,9 +59,11 @@ class FeedFragment : Fragment() {
         recipesBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         showShimmerEffect()
     }
+
+    //Request for the data to be displayed from the database
     private fun readDatabase() {
         lifecycleScope.launch {
-            mainViewModel.readRecipes.observe(viewLifecycleOwner){database ->
+            mainViewModel.readRecipes.observeOnce(viewLifecycleOwner){database ->
 
                 if(database.isNotEmpty()){
                     Log.d("RecipesFragment", "readDatabase called ")
@@ -108,7 +111,7 @@ class FeedFragment : Fragment() {
             mainViewModel.readRecipes.observe(viewLifecycleOwner){ database ->
 
                 if (database.isNotEmpty()) {
-                    Log.d("RecipesFrament", "readDatabase called ")
+                    Log.d("RecipesFragment", "readDatabase called ")
                     recipesAdapter.setData(database[0].foodRecipe)
                 }
             }
