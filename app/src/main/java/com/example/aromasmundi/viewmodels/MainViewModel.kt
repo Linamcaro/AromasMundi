@@ -7,13 +7,17 @@ import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.aromasmundi.data.Repository
+import com.example.aromasmundi.data.database.RecipesEntity
 import com.example.aromasmundi.models.RecipeResponse
 import com.example.aromasmundi.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import retrofit2.Response
 
@@ -23,7 +27,17 @@ class MainViewModel @Inject constructor(
     private val repository: Repository,
     application: Application): AndroidViewModel(application) {
 
+    /** ROOM DATABASE */
+    //Get the data from the database
+    val readRecipes: LiveData<List<RecipesEntity>> = repository.local.getAllRecipes().asLiveData()
+
+    //Insert the data in our local database
+    private fun insertRecipes(recipesEntity: RecipesEntity) = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.insertRecipes(recipesEntity)
+    }
+
     /** RETROFIT */
+
     //Store the response from the API
     var recipesResponse: MutableLiveData<NetworkResult<RecipeResponse>> = MutableLiveData()
 
@@ -41,6 +55,12 @@ class MainViewModel @Inject constructor(
                 val response = repository.remote.getRecipes(queries)
                 recipesResponse.value = handleRecipesResponse(response)
 
+                //Cache the data once we get the new data
+                val foodRecipe = recipesResponse.value!!.data
+                if(foodRecipe != null){
+                    offlineCacheRecipes(foodRecipe)
+                }
+
             }catch (e: Exception){
 
                 recipesResponse.value = NetworkResult.Error("Recipes not found")
@@ -50,6 +70,12 @@ class MainViewModel @Inject constructor(
             recipesResponse.value = NetworkResult.Error("No Internet Connection")
         }
 
+    }
+
+    //cache the data in the database
+    private fun offlineCacheRecipes(foodRecipe: RecipeResponse) {
+        val recipesEntity = RecipesEntity(foodRecipe)
+        insertRecipes(recipesEntity)
     }
 
     //Handle the error or successful responses from the API
@@ -69,7 +95,7 @@ class MainViewModel @Inject constructor(
 
             //when the API result is empty
             response.body()!!.results.isEmpty() -> {
-                return NetworkResult.Error("Recepies not found")
+                return NetworkResult.Error("Recipes not found")
             }
 
             response.isSuccessful -> {
