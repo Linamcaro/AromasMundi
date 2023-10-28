@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.fragments.feed.FeedFragment">
 
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.example.aromasmundi.viewmodels.MainViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,7 +54,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/recipesFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -66,6 +72,8 @@
             android:layout_height="100dp"
             android:alpha="0.3"
             android:src="@drawable/ic_no_signal"
+            readApiResponse="@{mainViewModel.recipesResponse}"
+            readDatabase="@{mainViewModel.readRecipes}"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,6 +88,8 @@
             android:layout_marginTop="8dp"
             android:alpha="0.5"
             android:text="No internet connection"
+            readApiResponse="@{mainViewModel.recipesResponse}"
+            readDatabase="@{mainViewModel.readRecipes}"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="invisible"

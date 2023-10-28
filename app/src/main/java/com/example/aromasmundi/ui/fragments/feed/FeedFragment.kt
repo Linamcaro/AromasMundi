@@ -11,6 +11,8 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aromasmundi.viewmodels.MainViewModel
 import com.example.aromasmundi.R
@@ -42,15 +44,21 @@ class FeedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
-                recipesBinding = DataBindingUtil.inflate(inflater,
-                    R.layout.fragment_feed, container, false)
+        recipesBinding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_feed, container, false)
 
-                recipesBinding.lifecycleOwner = this
+        recipesBinding.lifecycleOwner = this
 
-                setUpRecyclerView()
-                readDatabase()
-                return recipesBinding.root
+        setUpRecyclerView()
+        readDatabase()
+
+        recipesBinding.recipesFab.setOnClickListener {
+            findNavController().navigate(R.id.action_feedFragment_to_recipesBottomSheet)
+        }
+
+        return recipesBinding.root
     }
 
     //Set up the RecyclerView
@@ -105,7 +113,6 @@ class FeedFragment : Fragment() {
         }
     }
 
-
     private fun loadDataFromCache(){
         lifecycleScope.launch {
             mainViewModel.readRecipes.observe(viewLifecycleOwner){ database ->
@@ -116,8 +123,8 @@ class FeedFragment : Fragment() {
                 }
             }
         }
-
     }
+
 
     private fun showShimmerEffect(){
         recipesBinding.shimmerFrameLayout.startShimmer()
@@ -126,4 +133,5 @@ class FeedFragment : Fragment() {
     private fun hideShimmerEffect(){
         recipesBinding.shimmerFrameLayout.stopShimmer()
     }
+
 }

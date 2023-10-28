@@ -9,7 +9,11 @@
         android:id="@+id/feedFragment"
         android:name="com.example.aromasmundi.ui.fragments.feed.FeedFragment"
         android:label="Feed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_recipesBottomSheet"
+            app:destination="@id/recipesBottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.aromasmundi.ui.fragments.favorites.FavoritesFragment"
@@ -20,4 +24,13 @@
         android:name="com.example.aromasmundi.ui.fragments.foodJoke.JokesFragment"
         android:label="Jokes"
         tools:layout="@layout/fragment_jokes" />
+    <dialog
+        android:id="@+id/recipesBottomSheet"
+        android:name="com.example.aromasmundi.ui.fragments.feed.bottomsheet.RecipesBottomSheet"
+        android:label="recipes_bottom_sheet"
+        tools:layout="@layout/recipes_bottom_sheet" >
+        <action
+            android:id="@+id/action_recipesBottomSheet_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </dialog>
 </navigation>
