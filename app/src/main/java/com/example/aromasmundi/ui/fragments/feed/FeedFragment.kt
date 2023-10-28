@@ -7,17 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aromasmundi.viewmodels.MainViewModel
 import com.example.aromasmundi.R
 import com.example.aromasmundi.adapters.RecipesAdapter
 import com.example.aromasmundi.databinding.FragmentFeedBinding
+import com.example.aromasmundi.util.NetworkListener
 import com.example.aromasmundi.util.NetworkResult
 import com.example.aromasmundi.util.observeOnce
 import com.example.aromasmundi.viewmodels.RecipesViewModel
@@ -27,10 +27,15 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
+
+    private val args by navArgs<FeedFragmentArgs>()
+
     private  val recipesAdapter by lazy { RecipesAdapter() }
+
     private lateinit var recipesBinding: FragmentFeedBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var recipesViewModel: RecipesViewModel
+    private lateinit var networkListener: NetworkListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +57,29 @@ class FeedFragment : Fragment() {
         recipesBinding.lifecycleOwner = this
 
         setUpRecyclerView()
-        readDatabase()
+
+        recipesViewModel.readBackOnline.observe(viewLifecycleOwner){
+            recipesViewModel.backOnline = it
+        }
+
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect{status ->
+                    Log.d("NetworkListener", status.toString())
+
+                    recipesViewModel.networkStatus = status
+                    recipesViewModel.showNetworkStatus()
+                    readDatabase()
+                }
+        }
 
         recipesBinding.recipesFab.setOnClickListener {
-            findNavController().navigate(R.id.action_feedFragment_to_recipesBottomSheet)
+            if(recipesViewModel.networkStatus){
+                findNavController().navigate(R.id.action_feedFragment_to_recipesBottomSheet)
+            }else{
+                recipesViewModel.showNetworkStatus()
+            }
         }
 
         return recipesBinding.root
@@ -73,7 +97,7 @@ class FeedFragment : Fragment() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observeOnce(viewLifecycleOwner){database ->
 
-                if(database.isNotEmpty()){
+                if(database.isNotEmpty() && !args.backFromBottomSheet){
                     Log.d("RecipesFragment", "readDatabase called ")
                     recipesAdapter.setData(database[0].foodRecipe)
                     hideShimmerEffect()
@@ -128,10 +152,14 @@ class FeedFragment : Fragment() {
 
     private fun showShimmerEffect(){
         recipesBinding.shimmerFrameLayout.startShimmer()
+        recipesBinding.shimmerFrameLayout.visibility = View.VISIBLE
+        recipesBinding.recyclerView.visibility = View.GONE
     }
 
     private fun hideShimmerEffect(){
         recipesBinding.shimmerFrameLayout.stopShimmer()
+        recipesBinding.shimmerFrameLayout.visibility = View.GONE
+        recipesBinding.recyclerView.visibility = View.VISIBLE
     }
 
 }
