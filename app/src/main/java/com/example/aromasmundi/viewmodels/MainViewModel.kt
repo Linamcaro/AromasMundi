@@ -40,9 +40,14 @@ class MainViewModel @Inject constructor(
 
     //Store the response from the API
     var recipesResponse: MutableLiveData<NetworkResult<RecipeResponse>> = MutableLiveData()
+    var searchRecipesResponse: MutableLiveData<NetworkResult<RecipeResponse>> = MutableLiveData()
 
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch{
         getRecipesSafeCall(queries)
+    }
+
+    fun searchRecipes(searchQuery: Map<String,String> )= viewModelScope.launch {
+        searchRecipesSafeCall(searchQuery)
     }
 
     //Request the API data
@@ -70,6 +75,24 @@ class MainViewModel @Inject constructor(
             recipesResponse.value = NetworkResult.Error("No Internet Connection")
         }
 
+    }
+
+    private suspend fun searchRecipesSafeCall(searchQuery: Map<String, String>) {
+        searchRecipesResponse.value = NetworkResult.Loading()
+
+        if(hasInternetConnection()) {
+            try {
+                val response = repository.remote.searchRecipes(searchQuery)
+                searchRecipesResponse.value = handleRecipesResponse(response)
+
+            }catch (e: Exception){
+
+                searchRecipesResponse.value = NetworkResult.Error("Recipes not found")
+
+            }
+        }else{
+            searchRecipesResponse.value = NetworkResult.Error("No Internet Connection")
+        }
     }
 
     //cache the data in the database

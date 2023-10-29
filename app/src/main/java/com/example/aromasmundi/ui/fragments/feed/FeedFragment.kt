@@ -4,9 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +32,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class FeedFragment : Fragment() {
+class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val args by navArgs<FeedFragmentArgs>()
 
@@ -55,6 +61,24 @@ class FeedFragment : Fragment() {
             R.layout.fragment_feed, container, false)
 
         recipesBinding.lifecycleOwner = this
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.recipes_menu, menu)
+
+                val search = menu.findItem(R.id.menu_search)
+                val searchView = search.actionView as? SearchView
+                searchView?.isSubmitButtonEnabled = true
+                searchView?.setOnQueryTextListener(this@FeedFragment)
+
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return true
+            }
+        })
 
         setUpRecyclerView()
 
@@ -92,6 +116,18 @@ class FeedFragment : Fragment() {
         showShimmerEffect()
     }
 
+    //This will be called when the search button is pressed
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if(query != null){
+            searchApiData(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return true
+    }
+
     //Request for the data to be displayed from the database
     private fun readDatabase() {
         lifecycleScope.launch {
@@ -126,10 +162,38 @@ class FeedFragment : Fragment() {
                     Toast.makeText(
                         requireContext(),
                         response.message.toString(),
-                        Toast.LENGTH_LONG)
+                        Toast.LENGTH_SHORT)
                         .show()
                 }
 
+                is NetworkResult.Loading ->{
+                    showShimmerEffect()
+                }
+            }
+        }
+    }
+
+    private fun searchApiData(searchQuery: String){
+        showShimmerEffect()
+        mainViewModel.searchRecipes(recipesViewModel.applySearchQuery(searchQuery))
+        mainViewModel.searchRecipesResponse.observe(viewLifecycleOwner){response ->
+            when(response) {
+                is NetworkResult.Success ->{
+                    hideShimmerEffect()
+                    val foodrecipe = response.data
+                    foodrecipe?.let{
+                        recipesAdapter.setData(it)
+                    }
+                }
+                is NetworkResult.Error ->{
+                    hideShimmerEffect()
+                    loadDataFromCache()
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT)
+                        .show()
+                }
                 is NetworkResult.Loading ->{
                     showShimmerEffect()
                 }
