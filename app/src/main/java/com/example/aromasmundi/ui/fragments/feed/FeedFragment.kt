@@ -34,15 +34,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    private val args by navArgs<FeedFragmentArgs>()
-
-    private  val recipesAdapter by lazy { RecipesAdapter() }
-
     private lateinit var recipesBinding: FragmentFeedBinding
+    private  val recipesAdapter by lazy { RecipesAdapter() }
     private lateinit var mainViewModel: MainViewModel
     private lateinit var recipesViewModel: RecipesViewModel
     private lateinit var networkListener: NetworkListener
 
+    private val args by navArgs<FeedFragmentArgs>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -22,4 +22,6 @@
     <color name="checkedChipTxtColor">@color/colorPrimary</color>
     <color name="chipTxtColor">@color/darkGray</color>
 
+    <color name="actionBarBackgroundColor">@color/colorPrimary</color>
+
 </resources>
