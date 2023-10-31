@@ -57,10 +57,7 @@ class DetailsActivity : AppCompatActivity() {
             detailActivityBinding.detailsViewPager){ tab, position ->
             tab.text = titles[position]
         }.attach()
-
-
     }
-
 
     //Close details activity
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -68,7 +65,6 @@ class DetailsActivity : AppCompatActivity() {
             finish()
         }
             return super.onOptionsItemSelected(item)
-
     }
 
 }

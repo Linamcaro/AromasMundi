@@ -3,9 +3,9 @@ package com.example.aromasmundi.util
 import androidx.recyclerview.widget.DiffUtil
 import com.example.aromasmundi.models.Result
 
-    class RecipesDiffUtil(
-        private val oldList: List<Result>,
-        private val newList: List<Result>
+    class RecipesDiffUtil<T>(
+        private val oldList: List<T>,
+        private val newList: List<T>
     ): DiffUtil.Callback() {
 
         //return size of the old list
@@ -20,7 +20,7 @@ import com.example.aromasmundi.models.Result
 
         //called to decide whether two items are the same (represent the same item)
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id === newList[newItemPosition].id
+            return oldList[oldItemPosition] == newList[newItemPosition]
         }
 
         //called to decide whether two items have the same data

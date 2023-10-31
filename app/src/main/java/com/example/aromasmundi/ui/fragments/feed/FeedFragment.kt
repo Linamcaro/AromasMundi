@@ -46,13 +46,12 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
 
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         recipesViewModel = ViewModelProvider(requireActivity())[RecipesViewModel::class.java]
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Inflate the layout for this fragment
         recipesBinding = DataBindingUtil.inflate(inflater,

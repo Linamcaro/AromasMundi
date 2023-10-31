@@ -13,6 +13,7 @@ import coil.load
 import com.example.aromasmundi.R
 import com.example.aromasmundi.databinding.FragmentOverviewDetailBinding
 import com.example.aromasmundi.models.Result
+import com.example.aromasmundi.util.Constants.Companion.RECIPE_RESULT_KEY
 import com.example.aromasmundi.util.retrieveParcelable
 import org.jsoup.Jsoup
 
@@ -22,24 +23,26 @@ class OverviewDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         overviewBinding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_overview_detail, container, false)
 
-        val args = arguments
-        val myBundle: Result? = args!!.retrieveParcelable("recipeBundle") as Result?
 
+        val args = arguments
+        val myBundle: Result? = args!!.retrieveParcelable(RECIPE_RESULT_KEY) as Result?
+
+        //Binding the arguments attributes to the views
         overviewBinding.mainImageView.load(myBundle!!.image)
         overviewBinding.titleTextView.text = myBundle?.title
         overviewBinding.timeTextView.text = myBundle?.readyInMinutes.toString()
         overviewBinding.likesTextView.text = myBundle?.aggregateLikes.toString()
-        myBundle.summary?.let {
+        myBundle.summary.let {
             val summary = Jsoup.parse(it).text()
             overviewBinding.summaryTextView.text = summary
         }
 
-
+        //Set color green if the recipe has one of these properties
         setColor(myBundle.vegetarian, overviewBinding.vegetarianImageView, overviewBinding.vegetarianTextView)
         setColor(myBundle.vegan, overviewBinding.veganImageView, overviewBinding.veganTextView)
         setColor(myBundle.glutenFree, overviewBinding.glutenFreeImageView, overviewBinding.glutenFreeTextView)
@@ -50,7 +53,7 @@ class OverviewDetailFragment : Fragment() {
         return overviewBinding.root
     }
 
-    fun setColor(state: Boolean, imageView: ImageView, textView: TextView){
+    private fun setColor(state: Boolean, imageView: ImageView, textView: TextView){
         if (state){
             textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
             imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
