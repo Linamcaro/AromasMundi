@@ -7,17 +7,46 @@
 
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.example.aromasmundi.FeedFragment"
+        android:name="com.example.aromasmundi.ui.fragments.feed.FeedFragment"
         android:label="Feed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_recipesBottomSheet"
+            app:destination="@id/recipesBottomSheet" />
+        <argument
+            android:name="backFromBottomSheet"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_feedFragment_to_detailsActivity"
+            app:destination="@id/detailsActivity" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.aromasmundi.FavoritesFragment"
+        android:name="com.example.aromasmundi.ui.fragments.favorites.FavoritesFragment"
         android:label="Favorites"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/jokesFragment"
-        android:name="com.example.aromasmundi.JokesFragment"
+        android:name="com.example.aromasmundi.ui.fragments.foodJoke.JokesFragment"
         android:label="Jokes"
         tools:layout="@layout/fragment_jokes" />
+    <dialog
+        android:id="@+id/recipesBottomSheet"
+        android:name="com.example.aromasmundi.ui.fragments.feed.bottomsheet.RecipesBottomSheet"
+        android:label="recipes_bottom_sheet"
+        tools:layout="@layout/recipes_bottom_sheet" >
+        <action
+            android:id="@+id/action_recipesBottomSheet_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </dialog>
+    <activity
+        android:id="@+id/detailsActivity"
+        android:name="com.example.aromasmundi.ui.DetailsActivity"
+        android:label="activity_details"
+        tools:layout="@layout/activity_details" >
+        <argument
+            android:name="result"
+            app:argType="com.example.aromasmundi.models.Result" />
+    </activity>
 </navigation>

@@ -15,5 +15,13 @@
     <color name="red">#FF4646</color>
     <color name="yellow">#FFC114</color>
     <color name="green">#00C980</color>
+    
+    //Custom Chip Style
+    <color name="checkedChipBGColor">#206200EA</color>
+    <color name="chipBGColor">@color/lightGray</color>
+    <color name="checkedChipTxtColor">@color/colorPrimary</color>
+    <color name="chipTxtColor">@color/darkGray</color>
+
+    <color name="actionBarBackgroundColor">@color/colorPrimary</color>
 
 </resources>
