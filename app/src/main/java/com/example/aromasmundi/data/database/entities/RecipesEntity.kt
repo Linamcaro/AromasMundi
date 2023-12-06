@@ -1,4 +1,4 @@
-package com.example.aromasmundi.data.database
+package com.example.aromasmundi.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

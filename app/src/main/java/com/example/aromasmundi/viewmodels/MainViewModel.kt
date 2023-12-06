@@ -12,7 +12,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.aromasmundi.data.Repository
-import com.example.aromasmundi.data.database.RecipesEntity
+import com.example.aromasmundi.data.database.entities.FavoritesEntity
+import com.example.aromasmundi.data.database.entities.RecipesEntity
 import com.example.aromasmundi.models.RecipeResponse
 import com.example.aromasmundi.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,9 +32,26 @@ class MainViewModel @Inject constructor(
     //Get the data from the database
     val readRecipes: LiveData<List<RecipesEntity>> = repository.local.getAllRecipes().asLiveData()
 
-    //Insert the data in our local database
+    val readFavoriteRecipes: LiveData<List<FavoritesEntity>> = repository.local.getFavoriteRecipes().asLiveData()
+
+    //Insert the recipe data in our local database
     private fun insertRecipes(recipesEntity: RecipesEntity) = viewModelScope.launch(Dispatchers.IO) {
         repository.local.insertRecipes(recipesEntity)
+    }
+
+    //Insert the favorite recipe data in our local database
+    fun insetFavoriteRecipe(favoritesEntity: FavoritesEntity)= viewModelScope.launch(Dispatchers.IO) {
+        repository.local.insertFavoriteRecipe(favoritesEntity)
+    }
+
+    //delete the favorite recipe data in our local database
+    private fun deleteFavoriteRecipe(favoritesEntity: FavoritesEntity)= viewModelScope.launch(Dispatchers.IO) {
+        repository.local.deleteFavoriteRecipe(favoritesEntity)
+    }
+
+    //delete all the favorite recipe data in our local database
+    private fun deleteAllFavoriteRecipes() = viewModelScope.launch(Dispatchers.IO) {
+        repository.local.deleteAllFavoriteRecipes()
     }
 
     /** RETROFIT */

@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import com.example.aromasmundi.data.database.RecipesEntity
+import com.example.aromasmundi.data.database.entities.RecipesEntity
 import com.example.aromasmundi.models.RecipeResponse
 import com.example.aromasmundi.util.NetworkResult
 

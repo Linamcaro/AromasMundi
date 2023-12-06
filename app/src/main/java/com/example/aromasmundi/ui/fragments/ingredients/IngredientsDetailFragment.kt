@@ -19,10 +19,9 @@ class IngredientsDetailFragment : Fragment() {
     private lateinit var ingredientsBinding: FragmentIngredientsDetailBinding
     private val ingredientsAdapter: IngredientsAdapter by lazy { IngredientsAdapter() }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        // Inflate the layout for this fragment
+
         ingredientsBinding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_ingredients_detail, container, false)
 
