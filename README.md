@@ -21,6 +21,4 @@ XML
 
 # Screenshots
 
-<img src="/screenshots/Recepie.jpg" width="250" height="450"/>
-<img src="/screenshots/RecepieFilter.jpg" width="250" height="450"/>
-<img src="/screenshots/RecepieDetail.jpg" width="250" height="450"/>
+<img src="/screenshots/Recepie.jpg" width="250" height="450"/>  <img src="/screenshots/RecepieFilter.jpg" width="250" height="450"/>  <img src="/screenshots/RecepieDetail.jpg" width="250" height="450"/>
